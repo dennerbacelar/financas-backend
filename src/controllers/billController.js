@@ -24,9 +24,16 @@ module.exports = {
 
       return response.json({ name });
    },
+   async delete(request, response) {
+      const { id } = request.params;
+
+      await connection('bill').where('id', id).delete();
+
+      return response.status(204).send();
+   },
    async indexDateValues(request, response) {
       const bills = await connection('bill')
-         .select('id','date')
+         .select('id', 'date')
          .sum('value as valorMensal')
          .groupBy('date');
 
